@@ -5,6 +5,7 @@ import isNotSelf from './isNotSelf';
 import hCaptcha from './hCaptcha';
 import hasRole from './hasRole';
 import isStrongPassword from './isStrongPassword';
+import isAdmin from './isAdmin';
 
 export default {
     isInGroup,
@@ -14,4 +15,5 @@ export default {
     hCaptcha,
     hasRole,
     isStrongPassword,
+    isAdmin,
 };

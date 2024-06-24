@@ -1,9 +1,8 @@
 import { Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
 import sequelize from '../providers/db';
 import * as Sequelize from 'sequelize';
-import { UpdatedAt } from 'sequelize-typescript';
 
-interface PackageModel extends Model<InferAttributes<PackageModel>, InferCreationAttributes<PackageModel>> {
+interface ItemModel extends Model<InferAttributes<ItemModel>, InferCreationAttributes<ItemModel>> {
     id: CreationOptional<string>,
     userID: string,
     PRBoxID: string,
@@ -22,7 +21,7 @@ interface PackageModel extends Model<InferAttributes<PackageModel>, InferCreatio
     updatedAt: CreationOptional<string>,
 }
 
-const Package = sequelize.define<PackageModel>('Package', {
+const Item = sequelize.define<ItemModel>('Item', {
     id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -86,7 +85,7 @@ const Package = sequelize.define<PackageModel>('Package', {
         allowNull: true,
     },
 }, {
-    tableName: 'Packages',
+    tableName: 'Items',
     defaultScope: {
         attributes: {
             exclude: [
@@ -96,9 +95,9 @@ const Package = sequelize.define<PackageModel>('Package', {
     },
 });
 
-export default Package;
+export default Item;
 
 export {
-    PackageModel,
-    Package,
+    ItemModel,
+    Item,
 };

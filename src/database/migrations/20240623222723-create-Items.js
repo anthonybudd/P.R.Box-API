@@ -1,5 +1,5 @@
 module.exports = {
-    up: (queryInterface, Sequelize) => queryInterface.createTable('Packages', {
+    up: (queryInterface, Sequelize) => queryInterface.createTable('Items', {
         id: {
             type: Sequelize.UUID,
             defaultValue: Sequelize.UUIDV4,
@@ -64,5 +64,5 @@ module.exports = {
             allowNull: true,
         },
     }),
-    down: (queryInterface, Sequelize) => queryInterface.dropTable('Packages'),
+    down: (queryInterface, Sequelize) => queryInterface.dropTable('Items'),
 };

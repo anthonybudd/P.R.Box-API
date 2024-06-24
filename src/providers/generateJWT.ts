@@ -6,6 +6,7 @@ export default (user: UserModel, signOptions: SignOptions) => {
     const payload = {
         id: user.get('id'),
         email: user.get('email'),
+        type: user.get('type'),
     };
 
     signOptions.algorithm = 'RS512';

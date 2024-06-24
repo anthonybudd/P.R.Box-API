@@ -2,7 +2,7 @@ import User from './User';
 import GroupUser from './GroupUser';
 import Group from './Group';
 import PRBox from './PRBox';
-import PKG from './Package';
+import Item from './Item';
 
 
 User.belongsToMany(Group, {
@@ -16,4 +16,4 @@ Group.belongsToMany(User, {
     otherKey: 'userID',
 });
 
-PRBox.hasMany(PKG);
+PRBox.hasMany(Item);

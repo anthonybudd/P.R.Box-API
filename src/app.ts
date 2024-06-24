@@ -12,7 +12,9 @@ import { app as Auth } from './routes/Auth';
 import { app as User } from './routes/User';
 import { app as Groups } from './routes/Groups';
 import { app as PRBoxes } from './routes/PRBoxes';
-import { app as Packages } from './routes/Packages';
+import { app as Items } from './routes/Items';
+
+import { app as AdminItems } from './routes/admin/Items';
 
 
 const isTest = (process.env.NODE_ENV === 'test');
@@ -53,7 +55,8 @@ app.use('/api/v1/', Auth);
 app.use('/api/v1/', User);
 app.use('/api/v1/', Groups);
 app.use('/api/v1/', PRBoxes);
-app.use('/api/v1/', Packages);
+app.use('/api/v1/', Items);
+app.use('/api/v1/admin', AdminItems);
 app.use(ErrorHandler);
 
 export default app;
