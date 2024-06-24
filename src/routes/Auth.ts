@@ -167,7 +167,7 @@ app.get('/auth/verify-email/:emailVerificationKey', async (req: express.Request,
     });
 
     if (req.query.redirect === '1') return res.redirect(`${process.env.FRONTEND_URL}/?email_verified=1`);
-    return res.json({ id: user.id });
+    return res.json({ verified: true, id: user.id });
 });
 
 
