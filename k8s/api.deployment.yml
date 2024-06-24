@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pr-box-api
+  namespace: pr-box-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pr-box-api
+  template:
+    metadata:
+      labels:
+        app: pr-box-api
+    spec:
+      volumes:
+        - name: pr-box-api-jwt-secret
+          secret:
+            secretName: pr-box-api-jwt-secret
+      containers:
+        - name: pr-box-api
+          image: registry.EXAMPLE.COM/pr-box-api/pr-box-api
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/bash", "-c", "sequelize db:migrate"]
+          ports:
+          - containerPort: 80
+          volumeMounts:
+          - name: pr-box-api-jwt-secret
+            mountPath: "/app/private.pem"
+            subPath: private.pem
+          - name: pr-box-api-jwt-secret
+            mountPath: "/app/public.pem"
+            subPath: public.pem
+          env:
+          - name: NODE_ENV
+            value: "production"
+          - name: FRONTEND_URL
+            value: "https://app.EXAMPLE.COM"
+          - name: BACKEND_URL
+            value: "https://api.EXAMPLE.COM/api/v1"
+          - name: PORT
+            value: "80"
+          - name: PRIVATE_KEY_PATH
+            value: "/app/private.pem"
+          - name: PUBLIC_KEY_PATH
+            value: "/app/public.pem"
+          - name: DB_HOST
+            value: "db.EXAMPLE.COM"
+          - name: DB_PORT
+            value: "3306"
+          - name: DB_USERNAME
+            value: "user"
+          - name: DB_DATABASE
+            value: "app"
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: pr-box-api-secrets
+                key: DB_PASSWORD

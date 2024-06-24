@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  pr-box-api:
+    build: .
+    entrypoint: "nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node src/index.ts\""
+    container_name: pr-box-api
+    volumes:
+      - ./:/app
+      - ./.vol/tmp:/tmp
+    links:
+      - pr-box-api-db
+      - pr-box-api-db-test
+    ports:
+      - "8888:80"
+    environment:
+      PORT: 80
+
+  pr-box-api-db:
+    image: mysql:oracle
+    container_name: pr-box-api-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.vol/pr-box-api:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: supersecret
+      MYSQL_DATABASE: $DB_DATABASE
+      MYSQL_USER: $DB_USERNAME
+      MYSQL_PASSWORD: $DB_PASSWORD
+
+  # pr-box-api-db-test:
+  #   image: mysql:oracle
+  #   container_name: pr-box-api-db-test
+  #   ports:
+  #     - "3307:3306"
+  #   volumes:
+  #     - ./.vol/pr-box-api-test:/var/lib/mysql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: supersecret
+  #     MYSQL_DATABASE: $DB_DATABASE
+  #     MYSQL_USER: $DB_USERNAME
+  #     MYSQL_PASSWORD: $DB_PASSWORD
