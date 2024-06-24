@@ -49,12 +49,12 @@ app.post('/pr-boxes', [
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.mapped() });
     const data = matchedData(req);
 
-    const pRBox = await PRBox.create({
-        userID: req.user.id,
-        name: data.name,
-    });
+    // const pRBox = await PRBox.create({
+    //     userID: req.user.id,
+    //     name: data.name,
+    // });
 
-    return res.json(pRBox);
+    // return res.json(pRBox);
 });
 
 

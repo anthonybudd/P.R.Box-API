@@ -41,6 +41,8 @@ if (!argv['groupID']) throw Error('You must provide --groupID argument');
         } else {
             user = await User.create({
                 email,
+                type: 'User',
+                status: 'Pending',
                 password: bcrypt.hashSync(crypto.randomBytes(20).toString('hex'), bcrypt.genSaltSync(10)), // AB: Random password, will be updated by user
                 firstName: '',
                 inviteKey: crypto.randomBytes(20).toString('hex')

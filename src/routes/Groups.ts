@@ -93,6 +93,8 @@ app.post('/groups/:groupID/users/invite', [
     } else {
         user = await User.create({
             email,
+            type: 'User',
+            status: 'Pending',
             password: bcrypt.hashSync(crypto.randomBytes(20).toString('hex'), bcrypt.genSaltSync(10)), // AB: Random password, will be updated by user
             firstName: '',
             emailVerificationKey: String(Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111),

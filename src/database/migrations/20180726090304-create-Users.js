@@ -17,6 +17,16 @@ module.exports = {
             type: Sequelize.STRING,
             allowNull: false,
         },
+        type: {
+            type: Sequelize.STRING,
+            defaultValue: 'User',
+            allowNull: false,
+        },
+        status: {
+            type: Sequelize.STRING,
+            defaultValue: 'Pending',
+            allowNull: false,
+        },
 
         firstName: {
             type: Sequelize.STRING,

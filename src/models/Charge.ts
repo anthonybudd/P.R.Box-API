@@ -3,21 +3,16 @@ import sequelize from '../providers/db';
 import * as Sequelize from 'sequelize';
 import { UpdatedAt } from 'sequelize-typescript';
 
-interface PRBoxModel extends Model<InferAttributes<PRBoxModel>, InferCreationAttributes<PRBoxModel>> {
+interface ChargeModel extends Model<InferAttributes<ChargeModel>, InferCreationAttributes<ChargeModel>> {
     id: CreationOptional<string>,
     userID: string,
-    name: string,
-    addressLine1: string,
-    addressLine2: string,
-    addressLine3: string,
-    city: string,
-    zipcode: string,
-    state: string,
+    amount: string,
+    description: string,
     createdAt: CreationOptional<string>,
     updatedAt: CreationOptional<string>,
 }
 
-const PRBox = sequelize.define<PRBoxModel>('PRBox', {
+const Charge = sequelize.define<ChargeModel>('Charges', {
     id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -27,38 +22,17 @@ const PRBox = sequelize.define<PRBoxModel>('PRBox', {
     },
 
     userID: {
-        type: Sequelize.STRING,
+        type: Sequelize.UUID,
         allowNull: false,
     },
 
-    name: {
+    amount: {
         type: Sequelize.STRING,
         allowNull: false,
     },
-
-    addressLine1: {
+    description: {
         type: Sequelize.STRING,
-        allowNull: true,
-    },
-    addressLine2: {
-        type: Sequelize.STRING,
-        allowNull: true,
-    },
-    addressLine3: {
-        type: Sequelize.STRING,
-        allowNull: true,
-    },
-    city: {
-        type: Sequelize.STRING,
-        allowNull: true,
-    },
-    zipcode: {
-        type: Sequelize.STRING,
-        allowNull: true,
-    },
-    state: {
-        type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
     },
 
     createdAt: {
@@ -70,7 +44,7 @@ const PRBox = sequelize.define<PRBoxModel>('PRBox', {
         allowNull: true,
     },
 }, {
-    tableName: 'PRBoxes',
+    tableName: 'Charges',
     paranoid: true,
     defaultScope: {
         attributes: {
@@ -81,9 +55,9 @@ const PRBox = sequelize.define<PRBoxModel>('PRBox', {
     },
 });
 
-export default PRBox;
+export default Charge;
 
 export {
-    PRBoxModel,
-    PRBox,
+    ChargeModel,
+    Charge,
 };

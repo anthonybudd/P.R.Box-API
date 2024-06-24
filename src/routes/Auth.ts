@@ -113,6 +113,8 @@ app.post('/auth/sign-up', [
     const user = await User.create({
         id: userID,
         email: data.email,
+        type: 'User',
+        status: 'Pending',
         password: bcrypt.hashSync(data.password, bcrypt.genSaltSync(10)),
         firstName: ucFirst(data.firstName),
         lastName: ucFirst(data.lastName),

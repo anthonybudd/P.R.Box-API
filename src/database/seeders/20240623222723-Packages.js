@@ -6,8 +6,7 @@ const insert = [{
     PRBoxID: 'd8985d0d-078b-41d2-bb2e-61bb71413976',
     name: 'Seeded Package',
     status: 'Received',
-    // price: '10.00',
-    // image: '10.00',
+    image: '/img/package-1.png',
     createdAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     updatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
 }, {
@@ -16,8 +15,10 @@ const insert = [{
     PRBoxID: 'd8985d0d-078b-41d2-bb2e-61bb71413976',
     name: 'Seeded Package',
     status: 'Shipped',
+    tracking: 'JD63JD9LD',
     price: '10.00',
-    image: '/img/package-1.png',
+    image: '/img/package-2.png',
+    weight: '1000',
     createdAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     updatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
 }, {
@@ -26,8 +27,9 @@ const insert = [{
     PRBoxID: 'd8985d0d-078b-41d2-bb2e-61bb71413976',
     name: 'Seeded Package',
     status: 'Delivered',
+    tracking: 'JKXD93M82K',
     price: '10.00',
-    image: '/img/package-2.jpg',
+    image: '/img/package-3.png',
     createdAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     updatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
 }];

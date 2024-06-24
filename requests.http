@@ -232,3 +232,39 @@ content-type: application/json
 ### DELETE /packages/:packageID
 DELETE {{Host}}/packages/{{packageID}}
 Authorization: Bearer {{AccessToken}}
+
+
+###########################################
+# Charges
+
+@chargesID=05447dd7-1035-49aa-bb3e-719cd4712752
+
+### GET /charges
+GET {{Host}}/charges
+Authorization: Bearer {{AccessToken}}
+
+### GET /charges/:chargesID
+GET {{Host}}/charges/{{chargesID}}
+Authorization: Bearer {{AccessToken}}
+
+### POST /charges
+POST {{Host}}/charges
+Authorization: Bearer {{AccessToken}}
+content-type: application/json
+
+{
+    "name": "New Book"
+}
+
+### POST /charges/:chargesID
+POST {{Host}}/charges/{{chargesID}}
+Authorization: Bearer {{AccessToken}}
+content-type: application/json
+
+{
+    "name": "Updated Book Name"
+}
+
+### DELETE /charges/:chargesID
+DELETE {{Host}}/charges/{{chargesID}}
+Authorization: Bearer {{AccessToken}}

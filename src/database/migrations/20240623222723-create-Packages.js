@@ -33,16 +33,33 @@ module.exports = {
             type: Sequelize.STRING,
             allowNull: true,
         },
+        tracking: {
+            type: Sequelize.STRING,
+            allowNull: true,
+        },
+        weight: {
+            type: Sequelize.STRING,
+            allowNull: true,
+        },
 
+
+        receivedAt: {
+            type: Sequelize.DATE,
+            allowNull: true,
+        },
+        shippedAt: {
+            type: Sequelize.DATE,
+            allowNull: true,
+        },
+        deliveredAt: {
+            type: Sequelize.DATE,
+            allowNull: true,
+        },
         createdAt: {
             type: Sequelize.DATE,
             allowNull: true,
         },
         updatedAt: {
-            type: Sequelize.DATE,
-            allowNull: true,
-        },
-        deletedAt: {
             type: Sequelize.DATE,
             allowNull: true,
         },

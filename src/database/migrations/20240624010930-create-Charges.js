@@ -1,5 +1,5 @@
 module.exports = {
-    up: (queryInterface, Sequelize) => queryInterface.createTable('PRBoxes', {
+    up: (queryInterface, Sequelize) => queryInterface.createTable('Charges', {
         id: {
             type: Sequelize.UUID,
             defaultValue: Sequelize.UUIDV4,
@@ -13,34 +13,13 @@ module.exports = {
             allowNull: false,
         },
 
-        name: {
+        amount: {
             type: Sequelize.STRING,
             allowNull: false,
         },
-
-        addressLine1: {
+        description: {
             type: Sequelize.STRING,
-            allowNull: true,
-        },
-        addressLine2: {
-            type: Sequelize.STRING,
-            allowNull: true,
-        },
-        addressLine3: {
-            type: Sequelize.STRING,
-            allowNull: true,
-        },
-        city: {
-            type: Sequelize.STRING,
-            allowNull: true,
-        },
-        zipcode: {
-            type: Sequelize.STRING,
-            allowNull: true,
-        },
-        state: {
-            type: Sequelize.STRING,
-            allowNull: true,
+            allowNull: false,
         },
 
         createdAt: {
@@ -56,5 +35,5 @@ module.exports = {
             allowNull: true,
         },
     }),
-    down: (queryInterface, Sequelize) => queryInterface.dropTable('PRBoxes'),
+    down: (queryInterface, Sequelize) => queryInterface.dropTable('Charges'),
 };

@@ -6,6 +6,9 @@ interface UserModel extends Model<InferAttributes<UserModel>, InferCreationAttri
     id: CreationOptional<string>,
     email: string,
     password: string,
+    type: 'User' | 'Admin',
+    status: 'Pending' | 'Approved' | 'Banned',
+
     firstName: string,
     lastName: CreationOptional<string> | null,
     tos: CreationOptional<string> | null,
@@ -41,6 +44,16 @@ const User = sequelize.define<UserModel>('User', {
     },
     password: {
         type: Sequelize.STRING,
+        allowNull: false,
+    },
+    type: {
+        type: Sequelize.STRING,
+        defaultValue: 'User',
+        allowNull: false,
+    },
+    status: {
+        type: Sequelize.STRING,
+        defaultValue: 'Pending',
         allowNull: false,
     },
 

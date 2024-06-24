@@ -1,5 +1,6 @@
 import { body, validationResult, matchedData } from 'express-validator';
 import { User, UserModel } from './../models/User';
+import Charges from './../models/Charge';
 import passport from './../providers/Passport';
 import middleware from './middleware';
 import Group from './../models/Group';
@@ -138,4 +139,45 @@ app.post('/user/update-address', [
     });
 
     return res.json({ success: true });
+});
+
+
+/**
+ * GET /api/v1/user/charges
+ * 
+ */
+app.get('/user/charges', [
+    passport.authenticate('jwt', { session: false })
+], async (req: express.Request, res: express.Response) => {
+    return res.json(
+        await Charges.findAll({
+            where: {
+                userID: req.user.id
+            }
+        })
+    );
+});
+
+
+/**
+ * GET /api/v1/user/charges/:chargesID
+ * 
+ */
+app.get('/user/charges/:chargesID', [
+    passport.authenticate('jwt', { session: false }),
+], async (req: express.Request, res: express.Response) => {
+
+    const charge = await Charges.findByPk(req.params.chargesID);
+
+    if (!charge) return res.status(404).json({
+        msg: 'Charge not found',
+        code: 98646,
+    });
+
+    if (!charge.userID !== req.user.id) return res.status(401).json({
+        msg: 'You do not have access to this charge',
+        code: 98848,
+    });
+
+    return res.json(charge);
 });
