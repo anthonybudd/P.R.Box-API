@@ -7,6 +7,8 @@ const insert = [{
     name: 'Seeded Item',
     status: 'Received',
     image: '/img/package-1.png',
+
+    receivedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     createdAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     updatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
 }, {
@@ -16,9 +18,12 @@ const insert = [{
     name: 'Seeded Item',
     status: 'Shipped',
     tracking: '1ZY5672W0398860870',
+    carrier: 'UPS',
     price: '12.00',
     image: '/img/package-2.png',
     weight: '1000',
+    receivedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+    shippedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     createdAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     updatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
 }, {
@@ -28,8 +33,12 @@ const insert = [{
     name: 'Seeded Item',
     status: 'Delivered',
     tracking: '1ZY5672W0398860870',
+    carrier: 'UPS',
     price: '15.00',
     image: '/img/package-3.png',
+    receivedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+    shippedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+    deliveredAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     createdAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     updatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
 }];

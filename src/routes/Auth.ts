@@ -151,7 +151,7 @@ app.post('/auth/sign-up', [
  * 
  */
 app.get('/auth/verify-email/:emailVerificationKey', async (req: express.Request, res: express.Response) => {
-    const user = await User.findOne({
+    const user = await User.unscoped().findOne({
         where: {
             emailVerificationKey: req.params.emailVerificationKey
         }

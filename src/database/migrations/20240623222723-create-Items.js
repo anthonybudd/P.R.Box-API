@@ -41,7 +41,10 @@ module.exports = {
             type: Sequelize.STRING,
             allowNull: true,
         },
-
+        carrier: {
+            type: Sequelize.STRING,
+            allowNull: true,
+        },
 
         receivedAt: {
             type: Sequelize.DATE,

@@ -15,6 +15,8 @@ import { app as PRBoxes } from './routes/PRBoxes';
 import { app as Items } from './routes/Items';
 
 import { app as AdminItems } from './routes/admin/Items';
+import { app as AdminUsers } from './routes/admin/Users';
+import { app as AdminPRBoxes } from './routes/admin/PRBoxes';
 
 
 const isTest = (process.env.NODE_ENV === 'test');
@@ -57,6 +59,8 @@ app.use('/api/v1/', Groups);
 app.use('/api/v1/', PRBoxes);
 app.use('/api/v1/', Items);
 app.use('/api/v1/admin', AdminItems);
+app.use('/api/v1/admin', AdminUsers);
+app.use('/api/v1/admin', AdminPRBoxes);
 app.use(ErrorHandler);
 
 export default app;

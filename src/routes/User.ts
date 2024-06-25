@@ -1,7 +1,8 @@
 import { body, validationResult, matchedData } from 'express-validator';
 import { User, UserModel } from './../models/User';
-import Charges from './../models/Charge';
 import passport from './../providers/Passport';
+import { prZipcodes } from './../providers/Helpers';
+import Charges from './../models/Charge';
 import middleware from './middleware';
 import Group from './../models/Group';
 import bcrypt from 'bcrypt-nodejs';
@@ -56,7 +57,7 @@ app.post('/user', [
 app.post('/user/resend-verification-email', [
     passport.authenticate('jwt', { session: false }),
 ], async (req: express.Request, res: express.Response) => {
-    const user = await User.findByPk(req.user.id);
+    const user = await User.unscoped().findByPk(req.user.id);
 
     if (!user) return res.status(404).json({
         msg: 'User not found',
@@ -118,8 +119,8 @@ app.post('/user/update-address', [
     body('addressLine2'),
     body('addressLine3'),
     body('city').notEmpty().exists(),
-    body('zipcode').notEmpty().exists(),
-    body('state').notEmpty().exists(),
+    body('zipcode').notEmpty().exists().isIn(prZipcodes),
+    // body('state').notEmpty().exists(),
 ], async (req: express.Request, res: express.Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.mapped() });
@@ -131,7 +132,7 @@ app.post('/user/update-address', [
         addressLine3: data.addressLine3,
         city: data.city,
         zipcode: data.zipcode,
-        state: data.state,
+        state: 'Puerto Rico',
     }, {
         where: {
             id: req.user.id,

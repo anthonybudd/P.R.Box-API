@@ -13,6 +13,7 @@ interface ItemModel extends Model<InferAttributes<ItemModel>, InferCreationAttri
     image: CreationOptional<string> | null,
     tracking: CreationOptional<string> | null,
     weight: CreationOptional<string> | null, // AB: weight grams
+    carrier: CreationOptional<string> | null,
 
     receivedAt: CreationOptional<string> | null,
     shippedAt: CreationOptional<string> | null,
@@ -60,6 +61,10 @@ const Item = sequelize.define<ItemModel>('Item', {
         allowNull: true,
     },
     weight: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    carrier: {
         type: Sequelize.STRING,
         allowNull: true,
     },

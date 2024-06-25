@@ -4,6 +4,8 @@ import * as Sequelize from 'sequelize';
 
 interface UserModel extends Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {
     id: CreationOptional<string>,
+    PRBoxID: CreationOptional<string> | null,
+
     email: string,
     password: string,
     type: 'User' | 'Admin',
@@ -35,6 +37,11 @@ const User = sequelize.define<UserModel>('User', {
         primaryKey: true,
         allowNull: false,
         unique: true
+    },
+
+    PRBoxID: {
+        type: Sequelize.UUID,
+        allowNull: true,
     },
 
     email: {
@@ -118,6 +125,8 @@ const User = sequelize.define<UserModel>('User', {
             exclude: [
                 'password',
                 'passwordResetKey',
+                'emailVerificationKey',
+                'inviteKey',
             ]
         }
     },

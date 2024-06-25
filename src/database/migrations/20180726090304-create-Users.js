@@ -8,6 +8,11 @@ module.exports = {
             unique: true
         },
 
+        PRBoxID: {
+            type: Sequelize.UUID,
+            allowNull: true,
+        },
+
         email: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -67,7 +72,6 @@ module.exports = {
             type: Sequelize.STRING,
             allowNull: true,
         },
-
 
         tos: Sequelize.STRING,
         inviteKey: Sequelize.STRING,
