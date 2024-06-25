@@ -119,6 +119,7 @@ app.post('/auth/sign-up', [
         firstName: ucFirst(data.firstName),
         lastName: ucFirst(data.lastName),
         lastLoginAt: moment().format("YYYY-MM-DD HH:mm:ss"),
+        state: 'Puerto Rico',
         tos: data.tos,
         emailVerificationKey: String(Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111),
     });
@@ -157,7 +158,7 @@ app.get('/auth/verify-email/:emailVerificationKey', async (req: express.Request,
     });
 
     if (!user) return res.status(404).json({
-        msg: 'User not found',
+        msg: 'Invalid verification code',
         code: 40402
     });
 

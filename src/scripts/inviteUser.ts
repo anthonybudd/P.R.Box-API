@@ -43,6 +43,7 @@ if (!argv['groupID']) throw Error('You must provide --groupID argument');
                 email,
                 type: 'User',
                 status: 'Pending',
+                state: 'Puerto Rico',
                 password: bcrypt.hashSync(crypto.randomBytes(20).toString('hex'), bcrypt.genSaltSync(10)), // AB: Random password, will be updated by user
                 firstName: '',
                 inviteKey: crypto.randomBytes(20).toString('hex')
