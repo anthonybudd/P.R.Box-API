@@ -2,7 +2,7 @@
 # URL: https://marketplace.visualstudio.com/items?itemName=humao.rest-client
 
 @Host=http://localhost:8888/api/v1
-@AccessToken=null
+@AccessToken=eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ2ZDRlYmExLTRkOTMtNDViNC1hNzRjLTMzYWI2NTdlM2RhZiIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJ0eXBlIjoiQWRtaW4iLCJpYXQiOjE3MTkzNjEzMjksImV4cCI6MTcxOTQ0NzcyOX0.OeyuI2enVe2-tb0pLZvSpYG5MTGErBWW9l1XOz5c6O5TJuFhXan-Mlv-iv59C1RxAOpZAebmjFWERV-YRE56sWRKlZRl4ZQW3XGwUKaIdK6T6-vE-Q5HR1Aucfnmr5wrr_T-GP2kBp6keNeir7pkiVAPrGNBfyP2_TGs-ovzwT67PdkieNiRVjVV4N224wQf8cbw9qw0rmDchIYgXCFxgs2zp6J6ZcAelz9ufGdDcASi75ijMWk_eNo9kiZC6v_NfZMiWK1Kk0qN3zoSgcBx9Hxogg9qOzG13mB2ljg85QLFDq0tROAG8VA2yjzIJ_mWmsdhUIubEZOMxVmiFnOAFA
 @GroupA=fdab7a99-2c38-444b-bcb3-f7cef61c275b
 @GroupB=be1fcb4e-caf9-41c2-ac27-c06fa24da36a
 @User1=c4644733-deea-47d8-b35a-86f30ff9618e
@@ -16,7 +16,7 @@ POST {{Host}}/auth/login
 content-type: application/json
 
 {
-    "email": "user@example.com",
+    "email": "admin@example.com",
     "password": "Password@1234"
 }
 
@@ -211,8 +211,8 @@ Authorization: Bearer {{AccessToken}}
 GET {{Host}}/packages/{{packageID}}
 Authorization: Bearer {{AccessToken}}
 
-### POST /packages
-POST {{Host}}/packages
+### POST /admin/items
+POST {{Host}}/admin/items
 Authorization: Bearer {{AccessToken}}
 content-type: application/json
 

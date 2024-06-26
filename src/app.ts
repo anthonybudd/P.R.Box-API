@@ -36,16 +36,16 @@ app.disable('x-powered-by');
 if (!isTest) app.use(morgan('dev'));
 app.use(helmet());
 app.use(cors({
-  origin: '*',
-  credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization']
+    origin: '*',
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload({
-  limits: { fileSize: 50 * 1024 * 1024 },
-  useTempFiles: true,
-  parseNested: true,
+    limits: { fileSize: 50 * 1024 * 1024 },
+    useTempFiles: true,
+    parseNested: true,
 }));
 app.get('/_readiness', (req, res) => res.send('healthy'));
 app.get('/api/v1/_healthcheck', (req, res) => res.json({ messsage: 'healthy' }));

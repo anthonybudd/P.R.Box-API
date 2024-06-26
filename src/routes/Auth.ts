@@ -35,7 +35,7 @@ app.get('/_authcheck', [
 app.post('/auth/login', [
     body('email').exists().toLowerCase(),
     body('password').exists(),
-    middleware.hCaptcha,
+    // middleware.hCaptcha,
 ], async (req: express.Request, res: express.Response, next: Function) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.mapped() });

@@ -7,10 +7,10 @@ const hCaptcha = axios.create({
 
 export default {
     verify: async (response: string) => await hCaptcha.post('/siteverify',
-        qs.stringify({
+        {
             response,
             secret: process.env.H_CAPTCHA_SECRET,
-        }),
+        },
         {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

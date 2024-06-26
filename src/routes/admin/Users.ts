@@ -48,7 +48,6 @@ app.post('/users/:userID/set-status', [
 
     if (!user.PRBoxID) {
         const prBox = await PRBox.create({
-            userID: req.user.id,
             name: `P.R Box ${crypto.randomBytes(20).toString('base64').replace(/[^a-zA-Z0-9]/g, '').substring(0, 5)}`,
             addressLine1: process.env.DEFAULT_ADDRESS_LINE_1 || '',
             addressLine2: process.env.DEFAULT_ADDRESS_LINE_2 || '',

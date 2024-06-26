@@ -25,6 +25,8 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
     const { data } = await hCaptcha.verify(req.body.htoken);
 
+    console.log(data);
+
     if (data.success) return next();
 
     return res.status(422).json({

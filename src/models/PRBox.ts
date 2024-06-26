@@ -5,7 +5,6 @@ import { UpdatedAt } from 'sequelize-typescript';
 
 interface PRBoxModel extends Model<InferAttributes<PRBoxModel>, InferCreationAttributes<PRBoxModel>> {
     id: CreationOptional<string>,
-    userID: string,
     name: string,
     addressLine1: string,
     addressLine2: string,
@@ -24,11 +23,6 @@ const PRBox = sequelize.define<PRBoxModel>('PRBox', {
         primaryKey: true,
         allowNull: false,
         unique: true,
-    },
-
-    userID: {
-        type: Sequelize.STRING,
-        allowNull: false,
     },
 
     name: {
