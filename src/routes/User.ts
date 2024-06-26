@@ -2,6 +2,7 @@ import { body, validationResult, matchedData } from 'express-validator';
 import { User, UserModel } from './../models/User';
 import passport from './../providers/Passport';
 import { prZipcodes } from './../providers/Helpers';
+import Stripe from './../providers/Stripe';
 import Charges from './../models/Charge';
 import middleware from './middleware';
 import Group from './../models/Group';
@@ -181,4 +182,72 @@ app.get('/user/charges/:chargesID', [
     });
 
     return res.json(charge);
+});
+
+
+/**
+ * GET /api/v1/user/stripe/setup-intent
+ * 
+ */
+app.get('/user/stripe/setup-intent', [
+    passport.authenticate('jwt', { session: false })
+], async (req: express.Request, res: express.Response) => {
+    const user = await User.findByPk(req.user.id);
+
+    if (!user) return res.status(404).json({
+        msg: 'User not found',
+        code: 404,
+    });
+
+    if (!user.stripeCustomerID) {
+        const { id: stripeCustomerID } = await Stripe.customers.create({
+            description: user.id,
+            email: user.email,
+        });
+        await user.update({ stripeCustomerID });
+    }
+
+    const setupIntent = await Stripe.setupIntents.create({
+        customer: user.stripeCustomerID || '',
+        payment_method_types: ['card'],
+    });
+
+    return res.json({ clientSecret: setupIntent.client_secret });
+});
+
+
+/**
+ * GET /api/v1/user/stripe/last-4
+ * 
+ */
+app.get('/user/stripe/last-4', [
+    passport.authenticate('jwt', { session: false })
+], async (req: express.Request, res: express.Response) => {
+    const user = await User.findByPk(req.user.id);
+
+    let success = false;
+
+    if (!user) return res.status(404).json({
+        msg: 'User not found',
+        code: 404,
+    });
+
+    if (user.stripeCustomerID) {
+        const { data: paymentMethods } = await Stripe.customers.listPaymentMethods(user.stripeCustomerID);
+
+        console.log(paymentMethods);
+
+        for (let i = 0; i < paymentMethods.length; i++) {
+            const paymentMethod = paymentMethods[i];
+            if (paymentMethod && paymentMethod.card && paymentMethod.card.last4) {
+                await user.update({
+                    stripeLast4: paymentMethod.card.last4
+                });
+            }
+        }
+
+        success = true;
+    }
+
+    return res.json({ success });
 });

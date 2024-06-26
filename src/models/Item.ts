@@ -7,10 +7,10 @@ interface ItemModel extends Model<InferAttributes<ItemModel>, InferCreationAttri
     userID: string,
     PRBoxID: string,
 
-    name: string,
     status: 'Received' | 'Shipped' | 'Delivered',
     price: CreationOptional<string> | null,
     image: CreationOptional<string> | null,
+    imageShipped: CreationOptional<string> | null,
     tracking: CreationOptional<string> | null,
     weight: CreationOptional<string> | null, // AB: weight grams
     carrier: CreationOptional<string> | null,
@@ -40,19 +40,19 @@ const Item = sequelize.define<ItemModel>('Item', {
         allowNull: false,
     },
 
-    name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
     status: {
         type: Sequelize.STRING,
         allowNull: false,
     },
     price: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     image: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    imageShipped: {
         type: Sequelize.STRING,
         allowNull: true,
     },

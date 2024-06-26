@@ -4,6 +4,7 @@ import { User, UserModel } from './../models/User';
 import { GroupUser } from './../models/GroupUser';
 import { ucFirst } from './../providers/Helpers';
 import passport from './../providers/Passport';
+import Stripe from './../providers/Stripe';
 import { Group } from './../models/Group';
 import middleware from './middleware';
 import { v4 as uuidv4 } from 'uuid';
@@ -123,6 +124,13 @@ app.post('/auth/sign-up', [
         tos: data.tos,
         emailVerificationKey: String(Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111),
     });
+
+
+    const { id: stripeCustomerID } = await Stripe.customers.create({
+        description: user.id,
+        email: user.email,
+    });
+    await user.update({ stripeCustomerID });
 
 
     //////////////////////////////////////////

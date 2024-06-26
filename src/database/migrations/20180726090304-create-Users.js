@@ -73,6 +73,16 @@ module.exports = {
             allowNull: true,
         },
 
+        stripeCustomerID: {
+            type: Sequelize.STRING,
+            allowNull: true,
+        },
+
+        stripeLast4: {
+            type: Sequelize.STRING,
+            allowNull: true,
+        },
+
         tos: Sequelize.STRING,
         inviteKey: Sequelize.STRING,
         passwordResetKey: Sequelize.STRING,

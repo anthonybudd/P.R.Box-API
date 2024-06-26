@@ -23,6 +23,9 @@ interface UserModel extends Model<InferAttributes<UserModel>, InferCreationAttri
     zipcode: CreationOptional<string> | null,
     state: CreationOptional<string> | null,
 
+    stripeCustomerID: CreationOptional<string> | null,
+    stripeLast4: CreationOptional<string> | null,
+
     inviteKey: CreationOptional<string> | null,
     passwordResetKey: CreationOptional<string> | null,
     emailVerificationKey: CreationOptional<string> | null,
@@ -104,6 +107,11 @@ const User = sequelize.define<UserModel>('User', {
         allowNull: true,
     },
 
+    stripeCustomerID: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+
     tos: Sequelize.STRING,
     inviteKey: Sequelize.STRING,
     passwordResetKey: Sequelize.STRING,
@@ -116,6 +124,10 @@ const User = sequelize.define<UserModel>('User', {
 
     lastLoginAt: {
         type: Sequelize.DATE,
+        allowNull: true,
+    },
+    stripeLast4: {
+        type: Sequelize.STRING,
         allowNull: true,
     },
 }, {

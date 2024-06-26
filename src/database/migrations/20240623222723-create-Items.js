@@ -17,10 +17,6 @@ module.exports = {
             allowNull: false,
         },
 
-        name: {
-            type: Sequelize.STRING,
-            allowNull: false,
-        },
         status: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -30,6 +26,10 @@ module.exports = {
             allowNull: true,
         },
         image: {
+            type: Sequelize.STRING,
+            allowNull: true,
+        },
+        imageShipped: {
             type: Sequelize.STRING,
             allowNull: true,
         },
