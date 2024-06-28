@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: pr-box-api
-  namespace: pr-box-api
+  name: prbox-api
+  namespace: prbox-api
 spec:
   ports:
   - port: 80
     targetPort: 80
   selector:
-    app: pr-box-api
+    app: prbox-api

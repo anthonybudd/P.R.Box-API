@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pr-box-api
-  namespace: pr-box-api
+  name: prbox-api
+  namespace: prbox-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pr-box-api
+      app: prbox-api
   template:
     metadata:
       labels:
-        app: pr-box-api
+        app: prbox-api
     spec:
       volumes:
-        - name: pr-box-api-jwt-secret
+        - name: prbox-api-jwt-secret
           secret:
-            secretName: pr-box-api-jwt-secret
+            secretName: prbox-api-jwt-secret
       containers:
-        - name: pr-box-api
-          image: registry.EXAMPLE.COM/pr-box-api/pr-box-api
+        - name: prbox-api
+          image: registry.digitalocean.com/ab-registry/prbox-api:latest
           lifecycle:
             postStart:
               exec:
@@ -27,35 +27,112 @@ spec:
           ports:
           - containerPort: 80
           volumeMounts:
-          - name: pr-box-api-jwt-secret
+          - name: prbox-api-jwt-secret
             mountPath: "/app/private.pem"
             subPath: private.pem
-          - name: pr-box-api-jwt-secret
+          - name: prbox-api-jwt-secret
             mountPath: "/app/public.pem"
             subPath: public.pem
           env:
           - name: NODE_ENV
             value: "production"
-          - name: FRONTEND_URL
-            value: "https://app.EXAMPLE.COM"
-          - name: BACKEND_URL
-            value: "https://api.EXAMPLE.COM/api/v1"
           - name: PORT
             value: "80"
+          - name: FRONTEND_URL
+            value: "https://prbox.anthonybudd.io"
+          - name: BACKEND_URL
+            value: "https://api.prbox.anthonybudd.io/api/v1"
           - name: PRIVATE_KEY_PATH
             value: "/app/private.pem"
           - name: PUBLIC_KEY_PATH
             value: "/app/public.pem"
           - name: DB_HOST
-            value: "db.EXAMPLE.COM"
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: DB_HOST
           - name: DB_PORT
-            value: "3306"
-          - name: DB_USERNAME
-            value: "user"
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: DB_PORT
           - name: DB_DATABASE
-            value: "app"
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: DB_DATABASE
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: DB_USERNAME
           - name: DB_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: pr-box-api-secrets
+                name: prbox-api-secrets
                 key: DB_PASSWORD
+          - name: DEFAULT_ADDRESS_LINE_1
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: DEFAULT_ADDRESS_LINE_1
+          - name: DEFAULT_ADDRESS_LINE_2
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: DEFAULT_ADDRESS_LINE_2
+          - name: DEFAULT_ADDRESS_LINE_3
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: DEFAULT_ADDRESS_LINE_3
+          - name: DEFAULT_CITY
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: DEFAULT_CITY
+          - name: DEFAULT_ZIPCODE
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: DEFAULT_ZIPCODE
+          - name: DEFAULT_STATE
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: DEFAULT_STATE
+          - name: H_CAPTCHA_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: H_CAPTCHA_SECRET
+          - name: STRIPE_SK
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: STRIPE_SK
+          - name: AWS_S3_ENDPOINT
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: AWS_S3_ENDPOINT
+          - name: AWS_S3_BUCKET
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: AWS_S3_BUCKET
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: AWS_ACCESS_KEY_ID
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: AWS_SECRET_ACCESS_KEY
+          - name: MAILGUN_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: prbox-api-secrets
+                key: MAILGUN_API_KEY
