@@ -1,14 +1,17 @@
 import { body, validationResult, matchedData } from 'express-validator';
-import passport from './../../providers/Passport';
+import passport from './../../providers/passport';
 import storage from './../../providers/storage';
+import Stripe from './../../providers/Stripe';
+import Charge from './../../models/Charge';
+import middleware from './../middleware';
 import Item from './../../models/Item';
 import User from './../../models/User';
-import middleware from './../middleware';
 import { v4 as uuidv4 } from 'uuid';
 import express from 'express';
+import BN from 'bignumber.js';
+import * as path from 'path';
 import moment from 'moment';
 import * as fs from 'fs';
-import * as path from 'path';
 
 export const app = express.Router();
 
@@ -114,11 +117,25 @@ app.post('/items/:itemID/ship', [
     body('weight').notEmpty().exists(),
     body('tracking').notEmpty().exists(),
     body('carrier').notEmpty().exists(),
-    body('price').notEmpty().exists(),
+    body('price').notEmpty().exists().isNumeric(),
 ], async (req: express.Request, res: express.Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ errors: errors.mapped() });
     const { weight, tracking, price, carrier } = matchedData(req);
+
+    const item = await Item.findByPk(req.params.itemID);
+
+    if (!item) return res.status(404).json({
+        msg: 'Item not found',
+        code: 40400,
+    });
+
+    const user = await User.unscoped().findByPk(item.userID);
+
+    if (!user) return res.status(404).json({
+        msg: 'User not found',
+        code: 40400,
+    });
 
     if (!req.files || !req.files.imageShipped) return res.status(422).json({
         errors: {
@@ -141,17 +158,36 @@ app.post('/items/:itemID/ship', [
         ACL: 'private',
     }).promise();
 
-    await Item.update({
+    const serviceFee = new BN(process.env.SERVICE_FEE || "5");
+    const amount = new BN(price).plus(serviceFee);
+    const paymentIntent = await Stripe.paymentIntents.create({
+        amount: Number(new BN(amount).times(100).toFixed(2, 6)),
+        customer: user.stripeCustomerID || '',
+        payment_method: user.stripePaymentMethod || '',
+        currency: 'usd',
+        confirm: true,
+        return_url: process.env.FRONTEND_URL || '',
+        automatic_payment_methods: {
+            enabled: true,
+        },
+    });
+
+    await item.update({
         status: 'Shipped',
+        shippedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
         weight,
         tracking,
         carrier,
         price,
         imageShipped: Key,
-    }, {
-        where: {
-            id: req.params.itemID,
-        }
+    });
+
+    await Charge.create({
+        userID: user.id,
+        itemID: item.id,
+        stripePaymentResponse: JSON.stringify(paymentIntent),
+        amount: amount.toFixed(2, 6),
+        description: `Shipping: $${price} Service Charge: $${serviceFee}`,
     });
 
     return res.json(await Item.findByPk(req.params.itemID));

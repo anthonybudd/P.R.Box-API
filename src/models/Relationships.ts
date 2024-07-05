@@ -17,3 +17,8 @@ Group.belongsToMany(User, {
 });
 
 PRBox.hasMany(Item);
+
+User.hasOne(PRBox, {
+    sourceKey: 'PRBoxID',
+    foreignKey: 'id',
+});

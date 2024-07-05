@@ -25,6 +25,7 @@ interface UserModel extends Model<InferAttributes<UserModel>, InferCreationAttri
 
     stripeCustomerID: CreationOptional<string> | null,
     stripeLast4: CreationOptional<string> | null,
+    stripePaymentMethod: CreationOptional<string> | null,
 
     inviteKey: CreationOptional<string> | null,
     passwordResetKey: CreationOptional<string> | null,
@@ -111,6 +112,14 @@ const User = sequelize.define<UserModel>('User', {
         type: Sequelize.STRING,
         allowNull: true,
     },
+    stripeLast4: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    stripePaymentMethod: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
 
     tos: Sequelize.STRING,
     inviteKey: Sequelize.STRING,
@@ -126,10 +135,6 @@ const User = sequelize.define<UserModel>('User', {
         type: Sequelize.DATE,
         allowNull: true,
     },
-    stripeLast4: {
-        type: Sequelize.STRING,
-        allowNull: true,
-    },
 }, {
     tableName: 'Users',
     defaultScope: {
@@ -139,6 +144,8 @@ const User = sequelize.define<UserModel>('User', {
                 'passwordResetKey',
                 'emailVerificationKey',
                 'inviteKey',
+                'stripeCustomerID',
+                'stripePaymentMethod',
             ]
         }
     },

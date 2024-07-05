@@ -1,7 +1,7 @@
 import { body, validationResult, matchedData } from 'express-validator';
 import { User, UserModel } from './../models/User';
 import { GroupUser } from './../models/GroupUser';
-import passport from './../providers/Passport';
+import passport from './../providers/passport';
 import { Group } from './../models/Group';
 import middleware from './middleware';
 import bcrypt from 'bcrypt-nodejs';

@@ -1,8 +1,10 @@
 import { body, validationResult, matchedData } from 'express-validator';
 import { User, UserModel } from './../models/User';
-import passport from './../providers/Passport';
+import passport from './../providers/passport';
 import { prZipcodes } from './../providers/Helpers';
+import mailtrap from './../providers/mailtrap';
 import Stripe from './../providers/Stripe';
+import Email from './../providers/Email';
 import Charges from './../models/Charge';
 import middleware from './middleware';
 import Group from './../models/Group';
@@ -69,12 +71,18 @@ app.post('/user/resend-verification-email', [
         emailVerificationKey: String(Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111),
     });
 
-
-    //////////////////////////////////////////
-    // EMAIL THIS TO THE USER
-    const emailVerificationLink = `${process.env.BACKEND_URL}/auth/verify-email/${user.emailVerificationKey}?redirect=1`;
-    if (typeof global.it !== 'function') console.log(`\n\nEMAIL THIS TO THE USER\nEMAIL VERIFICATION LINK: ${emailVerificationLink}\n\n`);
-    //////////////////////////////////////////
+    // Email link to user
+    const link = `${process.env.BACKEND_URL}/auth/verify-email/${user.emailVerificationKey}?redirect=1`;
+    await mailtrap.send({
+        from: {
+            name: 'P.R. Box',
+            email: 'prbox@anthonybudd.io'
+        },
+        to: [{ email: user.email }],
+        subject: "Welcome to P.R Box",
+        html: Email.generate('Verify', { link, code: user.emailVerificationKey }),
+    });
+    console.log(`Email Sent: Verify.html - ${user.email} - ${user.emailVerificationKey}`);
 
     return res.json({ email: user.email });
 });
@@ -88,6 +96,9 @@ app.post('/user/resend-verification-email', [
 app.post('/user/update-password', [
     passport.authenticate('jwt', { session: false }),
     middleware.checkPassword,
+    body('newPassword')
+        .notEmpty()
+        .exists(),
     body('password')
         .notEmpty()
         .exists(),
@@ -192,7 +203,7 @@ app.get('/user/charges/:chargesID', [
 app.get('/user/stripe/setup-intent', [
     passport.authenticate('jwt', { session: false })
 ], async (req: express.Request, res: express.Response) => {
-    const user = await User.findByPk(req.user.id);
+    const user = await User.unscoped().findByPk(req.user.id);
 
     if (!user) return res.status(404).json({
         msg: 'User not found',
@@ -223,7 +234,7 @@ app.get('/user/stripe/setup-intent', [
 app.get('/user/stripe/last-4', [
     passport.authenticate('jwt', { session: false })
 ], async (req: express.Request, res: express.Response) => {
-    const user = await User.findByPk(req.user.id);
+    const user = await User.unscoped().findByPk(req.user.id);
 
     let success = false;
 
@@ -232,15 +243,14 @@ app.get('/user/stripe/last-4', [
         code: 404,
     });
 
-    if (user.stripeCustomerID) {
+    if (user.stripeCustomerID && !user.stripeLast4) {
         const { data: paymentMethods } = await Stripe.customers.listPaymentMethods(user.stripeCustomerID);
-
-        console.log(paymentMethods);
 
         for (let i = 0; i < paymentMethods.length; i++) {
             const paymentMethod = paymentMethods[i];
             if (paymentMethod && paymentMethod.card && paymentMethod.card.last4) {
                 await user.update({
+                    stripePaymentMethod: paymentMethod.id,
                     stripeLast4: paymentMethod.card.last4
                 });
             }

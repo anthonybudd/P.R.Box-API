@@ -1,11 +1,13 @@
 import { body, validationResult, matchedData } from 'express-validator';
-import generateJWT from './../providers/GenerateJWT';
+import generateJWT from './../providers/generateJWT';
 import { User, UserModel } from './../models/User';
 import { GroupUser } from './../models/GroupUser';
 import { ucFirst } from './../providers/Helpers';
-import passport from './../providers/Passport';
+import passport from './../providers/passport';
+import mailtrap from './../providers/mailtrap';
 import Stripe from './../providers/Stripe';
 import { Group } from './../models/Group';
+import Email from './../providers/Email';
 import middleware from './middleware';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt-nodejs';
@@ -132,13 +134,18 @@ app.post('/auth/sign-up', [
     });
     await user.update({ stripeCustomerID });
 
-
-    //////////////////////////////////////////
-    // EMAIL THIS TO THE USER
-    const emailVerificationLink = `${process.env.BACKEND_URL}/auth/verify-email/${user.emailVerificationKey}?redirect=1`;
-    if (typeof global.it !== 'function') console.log(`\n\nEMAIL THIS TO THE USER\nEMAIL VERIFICATION LINK: ${emailVerificationLink}\n\n`);
-    //////////////////////////////////////////
-
+    // Email link to user
+    const link = `${process.env.BACKEND_URL}/auth/verify-email/${user.emailVerificationKey}?redirect=1`;
+    await mailtrap.send({
+        from: {
+            name: 'P.R. Box',
+            email: 'prbox@anthonybudd.io'
+        },
+        to: [{ email: user.email }],
+        subject: "Welcome to P.R Box",
+        html: Email.generate('Verify', { link, code: user.emailVerificationKey }),
+    });
+    console.log(`Email Sent: Verify.html - ${user.email}`);
 
     return passport.authenticate('local', { session: false }, (err: Error, user: UserModel) => {
         if (err) throw err;

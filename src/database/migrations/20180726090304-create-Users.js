@@ -77,8 +77,11 @@ module.exports = {
             type: Sequelize.STRING,
             allowNull: true,
         },
-
         stripeLast4: {
+            type: Sequelize.STRING,
+            allowNull: true,
+        },
+        stripePaymentMethod: {
             type: Sequelize.STRING,
             allowNull: true,
         },

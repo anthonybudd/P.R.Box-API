@@ -12,7 +12,15 @@ module.exports = {
             type: Sequelize.UUID,
             allowNull: false,
         },
+        itemID: {
+            type: Sequelize.UUID,
+            allowNull: false,
+        },
 
+        stripePaymentResponse: {
+            type: Sequelize.TEXT,
+            allowNull: true,
+        },
         amount: {
             type: Sequelize.STRING,
             allowNull: false,

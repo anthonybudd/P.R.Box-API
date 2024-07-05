@@ -61,6 +61,6 @@ app.use('/api/v1/', Items);
 app.use('/api/v1/admin', AdminItems);
 app.use('/api/v1/admin', AdminUsers);
 app.use('/api/v1/admin', AdminPRBoxes);
-// app.use(ErrorHandler);
+app.use(ErrorHandler);
 
 export default app;

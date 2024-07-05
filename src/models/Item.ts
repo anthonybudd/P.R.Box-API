@@ -15,6 +15,8 @@ interface ItemModel extends Model<InferAttributes<ItemModel>, InferCreationAttri
     weight: CreationOptional<string> | null, // AB: weight grams
     carrier: CreationOptional<string> | null,
 
+    stripePaymentResponse: CreationOptional<string> | null,
+
     receivedAt: CreationOptional<string> | null,
     shippedAt: CreationOptional<string> | null,
     deliveredAt: CreationOptional<string> | null,
@@ -69,6 +71,11 @@ const Item = sequelize.define<ItemModel>('Item', {
         allowNull: true,
     },
 
+    stripePaymentResponse: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+    },
+
     receivedAt: {
         type: Sequelize.DATE,
         allowNull: true,
@@ -94,7 +101,7 @@ const Item = sequelize.define<ItemModel>('Item', {
     defaultScope: {
         attributes: {
             exclude: [
-                // Excluded properties
+                'stripePaymentResponse'
             ]
         }
     },

@@ -4,7 +4,7 @@
  *
  */
 import 'dotenv/config';
-import generateJWT from './../providers/GenerateJWT';
+import generateJWT from './../providers/generateJWT';
 import User from './../models/User';
 import db from './../providers/db';
 import minimist from 'minimist';

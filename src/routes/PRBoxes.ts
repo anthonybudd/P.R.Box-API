@@ -1,5 +1,5 @@
 import { body, validationResult, matchedData } from 'express-validator';
-import passport from './../providers/Passport';
+import passport from './../providers/passport';
 import User from './../models/User';
 import PRBox from './../models/PRBox';
 import express from 'express';

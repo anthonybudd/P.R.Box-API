@@ -6,6 +6,8 @@ import { UpdatedAt } from 'sequelize-typescript';
 interface ChargeModel extends Model<InferAttributes<ChargeModel>, InferCreationAttributes<ChargeModel>> {
     id: CreationOptional<string>,
     userID: string,
+    itemID: string,
+    stripePaymentResponse: string,
     amount: string,
     description: string,
     createdAt: CreationOptional<string>,
@@ -25,7 +27,15 @@ const Charge = sequelize.define<ChargeModel>('Charges', {
         type: Sequelize.UUID,
         allowNull: false,
     },
+    itemID: {
+        type: Sequelize.UUID,
+        allowNull: false,
+    },
 
+    stripePaymentResponse: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+    },
     amount: {
         type: Sequelize.STRING,
         allowNull: false,

@@ -38,6 +38,8 @@ spec:
             value: "production"
           - name: PORT
             value: "80"
+          - name: SERVICE_FEE
+            value: "5"
           - name: FRONTEND_URL
             value: "https://prbox.anthonybudd.io"
           - name: BACKEND_URL
@@ -71,36 +73,36 @@ spec:
               secretKeyRef:
                 name: prbox-api-secrets
                 key: DB_PASSWORD
-          - name: DEFAULT_ADDRESS_LINE_1
-            valueFrom:
-              secretKeyRef:
-                name: prbox-api-secrets
-                key: DEFAULT_ADDRESS_LINE_1
-          - name: DEFAULT_ADDRESS_LINE_2
-            valueFrom:
-              secretKeyRef:
-                name: prbox-api-secrets
-                key: DEFAULT_ADDRESS_LINE_2
-          - name: DEFAULT_ADDRESS_LINE_3
-            valueFrom:
-              secretKeyRef:
-                name: prbox-api-secrets
-                key: DEFAULT_ADDRESS_LINE_3
-          - name: DEFAULT_CITY
-            valueFrom:
-              secretKeyRef:
-                name: prbox-api-secrets
-                key: DEFAULT_CITY
-          - name: DEFAULT_ZIPCODE
-            valueFrom:
-              secretKeyRef:
-                name: prbox-api-secrets
-                key: DEFAULT_ZIPCODE
-          - name: DEFAULT_STATE
-            valueFrom:
-              secretKeyRef:
-                name: prbox-api-secrets
-                key: DEFAULT_STATE
+          # - name: DEFAULT_ADDRESS_LINE_1
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: prbox-api-secrets
+          #       key: DEFAULT_ADDRESS_LINE_1
+          # - name: DEFAULT_ADDRESS_LINE_2
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: prbox-api-secrets
+          #       key: DEFAULT_ADDRESS_LINE_2
+          # - name: DEFAULT_ADDRESS_LINE_3
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: prbox-api-secrets
+          #       key: DEFAULT_ADDRESS_LINE_3
+          # - name: DEFAULT_CITY
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: prbox-api-secrets
+          #       key: DEFAULT_CITY
+          # - name: DEFAULT_ZIPCODE
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: prbox-api-secrets
+          #       key: DEFAULT_ZIPCODE
+          # - name: DEFAULT_STATE
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: prbox-api-secrets
+          #       key: DEFAULT_STATE
           - name: H_CAPTCHA_SECRET
             valueFrom:
               secretKeyRef:
@@ -131,8 +133,8 @@ spec:
               secretKeyRef:
                 name: prbox-api-secrets
                 key: AWS_SECRET_ACCESS_KEY
-          - name: MAILGUN_API_KEY
+          - name: MAILTRAP_TOKEN
             valueFrom:
               secretKeyRef:
                 name: prbox-api-secrets
-                key: MAILGUN_API_KEY
+                key: MAILTRAP_TOKEN

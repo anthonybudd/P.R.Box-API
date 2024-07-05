@@ -49,8 +49,8 @@ kubectl --kubeconfig=./kubeconfig.yml apply -f ./k8s/api.service.yml
 ### Compile & Deploy One-liner
 ```sh
 docker buildx build --platform linux/amd64 --push -t registry.digitalocean.com/ab-registry/prbox-api:latest . && 
-kubectl --kubeconfig=./kubeconfig.yml rollout restart deployment prbox-api && \
-kubectl --kubeconfig=./kubeconfig.yml get pods -w
+kubectl --kubeconfig=./kubeconfig.yml -n prbox-api rollout restart deployment prbox-api && \
+kubectl --kubeconfig=./kubeconfig.yml -n prbox-api get pods -w
 ```
 
 
